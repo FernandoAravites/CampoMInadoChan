@@ -39,31 +39,48 @@ def criarMatrizCampo(matrizOriginal, ordem):
     return matrizCampo
 
 def main():
-
+    #perguntar a ordem
     ordem = 5
-    dificuldade = 2 * ordem
-    matrizMapa = [[0 for coluna in range(ordem)] for linha in range(ordem)]
-    quantidadeBombas = random.randint(0, dificuldade)
-
-    for _ in range(quantidadeBombas):
-        bombaLinha, bombaColuna = random.randint(0, ordem - 1 ), random.randint(0, ordem - 1)
-        matrizMapa[bombaLinha][bombaColuna] = 1 # LUGAR ALEATÓRIO QUE TEM BOMBA
-    
-    matrizCampo = criarMatrizCampo(matrizMapa, ordem)
-
-    #print('\n'.join(f'{str(elemento)}' for elemento in matrizCampo))
-
-    matrizJogador = [['x' for coluna in range(ordem)] for linha in range(ordem)]
-    for coluna in matrizJogador:
+    matrizFalsa = [['x' for coluna in range(ordem)] for linha in range(ordem)] #matriz falsa só com x
+    for coluna in matrizFalsa:
         for elemento in coluna:
             print(elemento, end=" ")
         print()
+    linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha, coluna): ").split())
+    linhaEscolha -= 1
+    colunaEscolha -= 1
+
+    dificuldade = 2 * ordem
+    matrizMapa = [[0 for coluna in range(ordem)] for linha in range(ordem)]
+    quantidadeBombas = random.randint(dificuldade//2, dificuldade+1)
+
+    posicoesSagradas=[]
+
+    for i in range(-1, 2): #-1 é acima
+        for j in range(-1,2): #-1 é esquerda
+            coordenadas = (linhaEscolha + i, colunaEscolha + j)
+            posicoesSagradas.append(coordenadas)
+            
+
+    while quantidadeBombas>0:
+        bombaLinha, bombaColuna=random.randint(0, ordem - 1 ), random.randint(0, ordem - 1)
+        coordenadaBomba = (bombaLinha, bombaColuna)
+        if coordenadaBomba not in posicoesSagradas:
+            matrizMapa[bombaLinha][bombaColuna] = 1
+            quantidadeBombas-=1
+    
+    matrizCampo = criarMatrizCampo(matrizMapa, ordem)
+
+    
+    matrizJogador = [['x' for coluna in range(ordem)] for linha in range(ordem)]
+    nao_rodar_da_primeira_vez=0
     
     while True:
-
-        linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha, coluna): ").split())
-        linhaEscolha -= 1
-        colunaEscolha -= 1
+        if nao_rodar_da_primeira_vez:
+            linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha, coluna): ").split())
+            linhaEscolha -= 1
+            colunaEscolha -= 1
+        nao_rodar_da_primeira_vez=1
         matrizJogador[linhaEscolha][colunaEscolha] = matrizCampo[linhaEscolha][colunaEscolha]
 
         #-1:-1 I -1:0 I -1:1
