@@ -3,7 +3,7 @@ import math
 import sys
 import random
 
-
+#teste teste
 def limpar(): #Apaga o que está escrito no terminal. Facilita os testes
 
     os.system('cls' if os.name == 'nt' else 'clear')
