@@ -5,31 +5,31 @@ import random
 from colorama import Fore, Back, Style, init
 #pip install colorama terminal
 
-def limpar(): #Apaga o que está escrito no terminal. Facilita os testes
+def limpar():
 
     os.system('cls' if os.name == 'nt' else 'clear')
 
 limpar()
-    
-def contarBombaVizinha(matriz, linha, coluna, ordem): #retorna quantas bombas tem ao redor de um ponto
+
+def contarBombaVizinha(matriz, linha, coluna, ordem):
     
     bombas = 0
 
-    for i in range(-1, 2): # i é como o a posição x, checa se tem bomba no lado esquerdo (-1) e direito (1)
-        for j in range(-1,2): # j é como o a posição y, checa se tem bomba abaixo (-1) e acima (1)
+    for i in range(-1, 2): # VAI DA CASA DE ANTES ATÉ A QUE VEM DEPOIS
+        for j in range(-1,2):
 
-            if i == 0 and j == 0: continue # ignora o centro (ponto), queremos saber se tem bombas ao redor
+            if i == 0 and j == 0: continue # IGNORA O CENTRO
                 
-            novaLinha, novaColuna = linha + i, coluna + j #ponto onde será checado se tem bomba
+            novaLinha, novaColuna = linha + i, coluna + j
             
-            if 0 <= novaLinha < ordem and 0 <= novaColuna < ordem: #Cuida para não checarem pontos fora da matriz
+            if 0 <= novaLinha < ordem and 0 <= novaColuna < ordem:
 
                 if matriz[novaLinha][novaColuna] == 1: bombas += 1
 
     return bombas
 
 def criarMatrizCampo(matrizOriginal, ordem):
-    matrizCampo = [[0 for _ in range(ordem)] for _ in range(ordem)] #cria uma matriz apenas com 0
+    matrizCampo = [[0 for _ in range(ordem)] for _ in range(ordem)]
     
     for i in range(ordem):
         for j in range(ordem):
@@ -39,39 +39,67 @@ def criarMatrizCampo(matrizOriginal, ordem):
     return matrizCampo
 
 def main():
-    #ordem = int(input("Digite o tamanho do campo minado: "))
-    ordem=5
 
+    ordem = 5
     dificuldade = 2 * ordem
-    matrizMapa = [[0 for coluna in range(ordem)] for linha in range(ordem)] #cria uma matriz apenas com 0
-    quantidadeBombas = random.randint(0, dificuldade) #escolhe o numero de bombas no campo
+    matrizMapa = [[0 for coluna in range(ordem)] for linha in range(ordem)]
+    quantidadeBombas = random.randint(0, dificuldade)
 
-    for _ in range(quantidadeBombas): #escolhe aleatoriamente um espaço para ter bomba
-        bombaLinha, bombaColuna = random.randint(0, ordem -1 ), random.randint(0, ordem - 1)
-        matrizMapa[bombaLinha][bombaColuna] = 1
+    for _ in range(quantidadeBombas):
+        bombaLinha, bombaColuna = random.randint(0, ordem - 1 ), random.randint(0, ordem - 1)
+        matrizMapa[bombaLinha][bombaColuna] = 1 # LUGAR ALEATÓRIO QUE TEM BOMBA
     
     matrizCampo = criarMatrizCampo(matrizMapa, ordem)
 
-    #matrizMapa= matriz apenas com 0 e 1, 0 significa que o ponto não tem bomba, caso 1, então tem
-    #matrizCampo= matriz onde cada ponto reflete o numero de bombas ao redor, se o lugar tem bomba então é -1
-    #matrizJogador= Matriz com X onde o jagador interage
+    #print('\n'.join(f'{str(elemento)}' for elemento in matrizCampo))
 
-    interagido=[]
-
-
-
-    for coluna in matrizCampo:
+    matrizJogador = [['x' for coluna in range(ordem)] for linha in range(ordem)]
+    for coluna in matrizJogador:
         for elemento in coluna:
-            if coluna==1:
-                print("x")
-            else:
+            print(elemento, end=" ")
+        print()
+    
+    while True:
+
+        linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha, coluna): ").split())
+        linhaEscolha -= 1
+        colunaEscolha -= 1
+        matrizJogador[linhaEscolha][colunaEscolha] = matrizCampo[linhaEscolha][colunaEscolha]
+
+        #-1:-1 I -1:0 I -1:1
+        #0:-1 I 0:0 I 0:1
+        #1:-1 I 1:0 I 1:1
+        for i in range(-1, 2): #-1 é acima
+            for j in range(-1,2): #-1 é esquerda
+
+                if i == 0 and j == 0: continue # IGNORA O CENTRO
+                    
+                novaLinha, novaColuna = linhaEscolha + i, colunaEscolha + j
+                
+                if 0 <= novaLinha < ordem and 0 <= novaColuna < ordem:
+                    if i!=0 and j!=0:
+                        if (matrizCampo[linhaEscolha + i][colunaEscolha] == 0 or matrizCampo[linhaEscolha][colunaEscolha + j] == 0):
+                            matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna]
+                    elif matrizCampo[novaLinha][novaColuna] == 0: matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna] 
+
+    
+        for coluna in matrizJogador:
+            for elemento in coluna:
+
                 match elemento:
-                    case 'B': print(Fore.WHITE + str(elemento), end=" ")
+                    case 'B': print(Fore.RED + "BOOM!", end=" ")
                     case 0: print(Fore.WHITE + str(elemento), end=" ")
                     case 1: print(Fore.BLUE + str(elemento), end=" ")
                     case 2: print(Fore.GREEN + str(elemento), end=" ")
                     case 3: print(Fore.RED + str(elemento), end=" ")
                     case 4: print(Fore.BLACK + str(elemento), end=" ")
-        print()
+                    case 'x': print(Fore.WHITE + elemento, end=" ")
+            print()
+        
+        if matrizCampo[linhaEscolha][colunaEscolha] == 'B':
+            print()
+            print("Perdeu seu merdinha")
+            break
+
 
 if __name__ == '__main__': main()
