@@ -2,9 +2,9 @@ import os
 import math
 import sys
 import random
+from colorama import Fore, Back, Style, init
 
-#teste teste
-def limpar(): #Apaga o que está escrito no terminal. Facilita os testes
+def limpar():
 
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -14,7 +14,7 @@ def contarBombaVizinha(matriz, linha, coluna, ordem):
     
     bombas = 0
 
-    for i in range(-1, 2): # i é como o a posição x, checa se tem bomba no lado esquerdo (-1) e direito (1)
+    for i in range(-1, 2): # VAI DA CASA DE ANTES ATÉ A QUE VEM DEPOIS
         for j in range(-1,2):
 
             if i == 0 and j == 0: continue # IGNORA O CENTRO
@@ -32,7 +32,7 @@ def criarMatrizCampo(matrizOriginal, ordem):
     
     for i in range(ordem):
         for j in range(ordem):
-            if matrizOriginal[i][j] == 1: matrizCampo[i][j] = -1
+            if matrizOriginal[i][j] == 1: matrizCampo[i][j] = 'B'
             else: matrizCampo[i][j] = contarBombaVizinha(matrizOriginal, i, j, ordem)
     
     return matrizCampo
@@ -45,13 +45,24 @@ def main():
     quantidadeBombas = random.randint(0, dificuldade)
 
     for _ in range(quantidadeBombas):
-        bombaLinha, bombaColuna = random.randint(0, ordem -1 ), random.randint(0, ordem - 1)
+        bombaLinha, bombaColuna = random.randint(0, ordem - 1 ), random.randint(0, ordem - 1)
         matrizMapa[bombaLinha][bombaColuna] = 1 # LUGAR ALEATÓRIO QUE TEM BOMBA
     
     matrizCampo = criarMatrizCampo(matrizMapa, ordem)
 
-    print('\n'.join(f'{str(elemento)}' for elemento in matrizCampo))
+    #print('\n'.join(f'{str(elemento)}' for elemento in matrizCampo))
+
+    for coluna in matrizCampo:
+        for elemento in coluna:
+
+            match elemento:
+                case 'B': print(Fore.WHITE + str(elemento), end=" ")
+                case 0: print(Fore.WHITE + str(elemento), end=" ")
+                case 1: print(Fore.BLUE + str(elemento), end=" ")
+                case 2: print(Fore.GREEN + str(elemento), end=" ")
+                case 3: print(Fore.RED + str(elemento), end=" ")
+                case 4: print(Fore.BLACK + str(elemento), end=" ")
+        print()
+
 
 if __name__ == '__main__': main()
-
-# CUZINHO PRETO
