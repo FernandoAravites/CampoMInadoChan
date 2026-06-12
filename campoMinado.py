@@ -4,9 +4,6 @@ import sys
 import random
 from colorama import Fore, Back, Style, init
 
-# pip install termcolor
-
-
 def limpar():
 
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -55,17 +52,35 @@ def main():
 
     #print('\n'.join(f'{str(elemento)}' for elemento in matrizCampo))
 
-    for coluna in matrizCampo:
+    matrizJogador = [['x' for coluna in range(ordem)] for linha in range(ordem)]
+    for coluna in matrizJogador:
         for elemento in coluna:
-
-            match elemento:
-                case 'B': print(Fore.WHITE + str(elemento), end=" ")
-                case 0: print(Fore.WHITE + str(elemento), end=" ")
-                case 1: print(Fore.BLUE + str(elemento), end=" ")
-                case 2: print(Fore.GREEN + str(elemento), end=" ")
-                case 3: print(Fore.RED + str(elemento), end=" ")
-                case 4: print(Fore.BLACK + str(elemento), end=" ")
+            print(elemento, end=" ")
         print()
+    
+    while True:
+
+        linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha, coluna): ").split(", "))
+
+        matrizJogador[linhaEscolha][colunaEscolha] = matrizCampo[linhaEscolha][colunaEscolha]
+    
+        for coluna in matrizJogador:
+            for elemento in coluna:
+
+                match elemento:
+                    case 'B': print(Fore.RED + "BOOM!", end=" ")
+                    case 0: print(Fore.WHITE + str(elemento), end=" ")
+                    case 1: print(Fore.BLUE + str(elemento), end=" ")
+                    case 2: print(Fore.GREEN + str(elemento), end=" ")
+                    case 3: print(Fore.RED + str(elemento), end=" ")
+                    case 4: print(Fore.BLACK + str(elemento), end=" ")
+                    case 'x': print(Fore.WHITE + elemento, end=" ")
+            print()
+        
+        if matrizCampo[linhaEscolha][colunaEscolha] == 'B':
+            print()
+            print("Perdeu seu merdinha")
+            break
 
 
 if __name__ == '__main__': main()
