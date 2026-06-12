@@ -50,13 +50,12 @@ def main():
         matrizMapa[bombaLinha][bombaColuna] = 1 # LUGAR ALEATÓRIO QUE TEM BOMBA
     
     matrizCampo = criarMatrizCampo(matrizMapa, ordem)
-
-    #print('\n'.join(f'{str(elemento)}' for elemento in matrizCampo))
-
     matrizJogador = [['x' for coluna in range(ordem)] for linha in range(ordem)]
+
     for coluna in matrizJogador:
-        for elemento in coluna:
-            print(elemento, end=" ")
+
+        for elemento in coluna: print(elemento, end=" ")
+        
         print()
     
     while True:
