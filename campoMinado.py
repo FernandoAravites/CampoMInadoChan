@@ -4,6 +4,9 @@ import sys
 import random
 from colorama import Fore, Back, Style, init
 
+# pip install termcolor
+
+
 def limpar():
 
     os.system('cls' if os.name == 'nt' else 'clear')
