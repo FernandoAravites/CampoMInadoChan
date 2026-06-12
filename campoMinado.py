@@ -37,8 +37,8 @@ def criarMatrizCampo(matrizOriginal, ordem):
     return matrizCampo
 
 def main():
+    ordem = int(input("Digite o tamanho do campo minado: "))
 
-    ordem = 5
     dificuldade = 2 * ordem
     matrizMapa = [[0 for coluna in range(ordem)] for linha in range(ordem)] #cria uma matriz apenas com 0
     quantidadeBombas = random.randint(0, dificuldade) #escolhe o numero de bombas no campo
