@@ -4,7 +4,7 @@ import sys
 import random
 
 
-def limpar():
+def limpar(): #Apaga o que está escrito no terminal. Facilita os testes
 
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -14,7 +14,7 @@ def contarBombaVizinha(matriz, linha, coluna, ordem):
     
     bombas = 0
 
-    for i in range(-1, 2): # VAI DA CASA DE ANTES ATÉ A QUE VEM DEPOIS
+    for i in range(-1, 2): # i é como o a posição x, checa se tem bomba no lado esquerdo (-1) e direito (1)
         for j in range(-1,2):
 
             if i == 0 and j == 0: continue # IGNORA O CENTRO
@@ -54,4 +54,3 @@ def main():
 
 if __name__ == '__main__': main()
 
-#gsahfsfdabjhjhk
