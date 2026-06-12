@@ -2,6 +2,8 @@ import os
 import math
 import sys
 import random
+from colorama import Fore, Back, Style, init
+#pip install colorama terminal
 
 def limpar(): #Apaga o que está escrito no terminal. Facilita os testes
 
@@ -31,13 +33,14 @@ def criarMatrizCampo(matrizOriginal, ordem):
     
     for i in range(ordem):
         for j in range(ordem):
-            if matrizOriginal[i][j] == 1: matrizCampo[i][j] = -1
+            if matrizOriginal[i][j] == 1: matrizCampo[i][j] = 'B'
             else: matrizCampo[i][j] = contarBombaVizinha(matrizOriginal, i, j, ordem)
     
     return matrizCampo
 
 def main():
-    ordem = int(input("Digite o tamanho do campo minado: "))
+    #ordem = int(input("Digite o tamanho do campo minado: "))
+    ordem=5
 
     dificuldade = 2 * ordem
     matrizMapa = [[0 for coluna in range(ordem)] for linha in range(ordem)] #cria uma matriz apenas com 0
@@ -51,7 +54,24 @@ def main():
 
     #matrizMapa= matriz apenas com 0 e 1, 0 significa que o ponto não tem bomba, caso 1, então tem
     #matrizCampo= matriz onde cada ponto reflete o numero de bombas ao redor, se o lugar tem bomba então é -1
+    #matrizJogador= Matriz com X onde o jagador interage
 
-    print('\n'.join(f'{str(elemento)}' for elemento in matrizCampo))
+    interagido=[]
+
+
+
+    for coluna in matrizCampo:
+        for elemento in coluna:
+            if coluna==1:
+                print("x")
+            else:
+                match elemento:
+                    case 'B': print(Fore.WHITE + str(elemento), end=" ")
+                    case 0: print(Fore.WHITE + str(elemento), end=" ")
+                    case 1: print(Fore.BLUE + str(elemento), end=" ")
+                    case 2: print(Fore.GREEN + str(elemento), end=" ")
+                    case 3: print(Fore.RED + str(elemento), end=" ")
+                    case 4: print(Fore.BLACK + str(elemento), end=" ")
+        print()
 
 if __name__ == '__main__': main()
