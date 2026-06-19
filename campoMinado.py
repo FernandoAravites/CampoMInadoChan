@@ -1,11 +1,8 @@
-import os
-import math
-import sys
-import random
+import os, math, sys, random, msvcrt
 from colorama import Fore, Back, Style, init
 #pip install colorama terminal
 
-debug_mode=1
+debugMode = 1
 
 def limpar():
 
@@ -40,14 +37,47 @@ def criarMatrizCampo(matrizOriginal, ordem):
     
     return matrizCampo
 
-def main():
-    #perguntar a ordem
-    ordem = 5
-    matrizFalsa = [['x' for coluna in range(ordem)] for linha in range(ordem)] #matriz falsa só com x
-    for coluna in matrizFalsa:
+def escolherDificuldade(dificuldadeEntrada):
+
+    match dificuldadeEntrada:
+        case "fácil": return 5
+        case "médio": return 10
+        case "difícil": return 20
+
+def criarMatrizFalsa(ordem):
+
+    return [['x' for coluna in range(ordem)] for linha in range(ordem)] #matriz falsa só com x
+
+def imprimirMatriz(matriz):
+
+    for coluna in matriz:
         for elemento in coluna:
             print(elemento, end=" ")
         print()
+
+def main():
+
+    ordem = 5
+
+    print("=== SIGMA SWEEPER ===\n")
+
+    print("Pressione Enter para continuar...", end="", flush=True)
+
+    while True:
+        if msvcrt.getch() == b'\r':
+            break
+
+    os.system("cls")  # limpa a tela inteira
+
+    dificuldadeEntradaPlayer = input("Escolha a dificuldade (fácil, médio ou difícil): ").lower()
+    ordem = escolherDificuldade(dificuldadeEntradaPlayer)
+
+    os.system("cls")  # limpa de novo antes do jogo começar
+
+    matrizFalsa = criarMatrizFalsa(ordem) #matriz falsa só com x
+
+    imprimirMatriz(matrizFalsa)
+
     linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha coluna): ").split())
     linhaEscolha -= 1
     colunaEscolha -= 1
@@ -115,7 +145,7 @@ def main():
                     case 'x': print(Fore.WHITE + elemento, end=" ")
             print(Style.RESET_ALL)
 
-        if debug_mode:
+        if debugMode:
             print()
             for coluna in matrizCampo:
                 for elemento in coluna:
