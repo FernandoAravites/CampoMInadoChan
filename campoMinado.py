@@ -42,19 +42,19 @@ def criarMatrizCampo(matrizOriginal, ordem):
 
 def main():
     #perguntar a ordem
-    ordem = 5
+    ordem = 4
     matrizFalsa = [['x' for coluna in range(ordem)] for linha in range(ordem)] #matriz falsa só com x
     for coluna in matrizFalsa:
         for elemento in coluna:
             print(elemento, end=" ")
         print()
-    linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha, coluna): ").split())
+    linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha coluna): ").split())
     linhaEscolha -= 1
     colunaEscolha -= 1
 
     dificuldade = 2 * ordem
     matrizMapa = [[0 for coluna in range(ordem)] for linha in range(ordem)]
-    quantidadeBombas = random.randint(dificuldade//2, dificuldade+1)
+    quantidadeBombas = 1 #random.randint(dificuldade//2, dificuldade+1)
 
     posicoesSagradas=[]
 
@@ -63,26 +63,25 @@ def main():
             coordenadas = (linhaEscolha + i, colunaEscolha + j)
             posicoesSagradas.append(coordenadas)
             
-
-    while quantidadeBombas>0:
+    quantidadeBombas_agora=quantidadeBombas
+    while quantidadeBombas_agora>0:
         bombaLinha, bombaColuna=random.randint(0, ordem - 1 ), random.randint(0, ordem - 1)
         coordenadaBomba = (bombaLinha, bombaColuna)
         if coordenadaBomba not in posicoesSagradas:
             matrizMapa[bombaLinha][bombaColuna] = 1
-            quantidadeBombas-=1
+            quantidadeBombas_agora-=1
     
     matrizCampo = criarMatrizCampo(matrizMapa, ordem)
 
-    
     matrizJogador = [['x' for coluna in range(ordem)] for linha in range(ordem)]
-    nao_rodar_da_primeira_vez=0
+    primeira_vez=1
     
     while True:
-        if nao_rodar_da_primeira_vez:
+        if not primeira_vez:
             linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha coluna): ").split())
             linhaEscolha -= 1
             colunaEscolha -= 1
-        nao_rodar_da_primeira_vez=1
+    
         matrizJogador[linhaEscolha][colunaEscolha] = matrizCampo[linhaEscolha][colunaEscolha]
 
         #-1:-1 I -1:0 I -1:1
@@ -96,12 +95,16 @@ def main():
                 novaLinha, novaColuna = linhaEscolha + i, colunaEscolha + j
                 
                 if 0 <= novaLinha < ordem and 0 <= novaColuna < ordem:
-                    if i!=0 and j!=0: #chac os cantos
+                    if i!=0 and j!=0: #checa os cantos
                         if (matrizCampo[linhaEscolha + i][colunaEscolha] == 0 or matrizCampo[linhaEscolha][colunaEscolha + j] == 0) and matrizCampo[linhaEscolha + i][colunaEscolha + j] == 0:
                             matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna]
-                    elif matrizCampo[novaLinha][novaColuna] == 0: matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna] 
+                    elif matrizCampo[novaLinha][novaColuna] == 0: matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna]
 
-    
+                    if primeira_vez:
+                        matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna]
+
+
+        x_sobrando=0
         for coluna in matrizJogador:
             for elemento in coluna:
 
@@ -112,11 +115,13 @@ def main():
                     case 2: print(Fore.GREEN + str(elemento), end=" ")
                     case 3: print(Fore.RED + str(elemento), end=" ")
                     case 4: print(Fore.BLACK + str(elemento), end=" ")
-                    case 'x': print(Fore.WHITE + elemento, end=" ")
+                    case 'x':
+                        print(Fore.WHITE + elemento, end=" ")
+                        x_sobrando+=1
             print(Style.RESET_ALL)
-
+            
         if debug_mode:
-            print()
+            print("Debug matriz / x's sobrando:")
             for coluna in matrizCampo:
                 for elemento in coluna:
                     
@@ -129,11 +134,26 @@ def main():
                         case 4: print(Fore.BLACK + str(elemento), end=" ")
                         case 'x': print(Fore.WHITE + elemento, end=" ")
                 print(Style.RESET_ALL)
+            print(x_sobrando)
+        primeira_vez=0
         
+
+
         if matrizCampo[linhaEscolha][colunaEscolha] == 'B':
             print()
-            print("Perdeu seu merdinha")
+            print(Fore.RED + "Perdeu seu merdinha >:)", end=" ")
+            break
+        elif x_sobrando==quantidadeBombas:
+            print(Fore.GREEN + "Você ganhou yayyy :D", end=" ")
             break
 
+            
 
-if __name__ == '__main__': main()
+while True:
+    if __name__ == '__main__':
+        main()
+        print(Style.RESET_ALL)
+        resposta= input("Gostaria de encerrar a sessão? (Digite ''sim'' caso seja sua vontade) \n")
+        if resposta=="sim":
+            print("Como quiser")
+            break
