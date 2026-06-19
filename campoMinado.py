@@ -5,6 +5,8 @@ import random
 from colorama import Fore, Back, Style, init
 #pip install colorama terminal
 
+debug_mode=1
+
 def limpar():
 
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -77,7 +79,7 @@ def main():
     
     while True:
         if nao_rodar_da_primeira_vez:
-            linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha, coluna): ").split())
+            linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha coluna): ").split())
             linhaEscolha -= 1
             colunaEscolha -= 1
         nao_rodar_da_primeira_vez=1
@@ -94,8 +96,8 @@ def main():
                 novaLinha, novaColuna = linhaEscolha + i, colunaEscolha + j
                 
                 if 0 <= novaLinha < ordem and 0 <= novaColuna < ordem:
-                    if i!=0 and j!=0:
-                        if (matrizCampo[linhaEscolha + i][colunaEscolha] == 0 or matrizCampo[linhaEscolha][colunaEscolha + j] == 0):
+                    if i!=0 and j!=0: #chac os cantos
+                        if (matrizCampo[linhaEscolha + i][colunaEscolha] == 0 or matrizCampo[linhaEscolha][colunaEscolha + j] == 0) and matrizCampo[linhaEscolha + i][colunaEscolha + j] == 0:
                             matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna]
                     elif matrizCampo[novaLinha][novaColuna] == 0: matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna] 
 
@@ -111,7 +113,22 @@ def main():
                     case 3: print(Fore.RED + str(elemento), end=" ")
                     case 4: print(Fore.BLACK + str(elemento), end=" ")
                     case 'x': print(Fore.WHITE + elemento, end=" ")
+            print(Style.RESET_ALL)
+
+        if debug_mode:
             print()
+            for coluna in matrizCampo:
+                for elemento in coluna:
+                    
+                    match elemento:
+                        case 'B': print(Fore.RED + "B", end=" ")
+                        case 0: print(Fore.WHITE + str(elemento), end=" ")
+                        case 1: print(Fore.BLUE + str(elemento), end=" ")
+                        case 2: print(Fore.GREEN + str(elemento), end=" ")
+                        case 3: print(Fore.RED + str(elemento), end=" ")
+                        case 4: print(Fore.BLACK + str(elemento), end=" ")
+                        case 'x': print(Fore.WHITE + elemento, end=" ")
+                print(Style.RESET_ALL)
         
         if matrizCampo[linhaEscolha][colunaEscolha] == 'B':
             print()
