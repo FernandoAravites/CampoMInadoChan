@@ -40,9 +40,9 @@ def criarMatrizCampo(matrizOriginal, ordem):
 def escolherDificuldade(dificuldadeEntrada):
 
     match dificuldadeEntrada:
-        case "fácil": return 5
-        case "médio": return 10
-        case "difícil": return 20
+        case "1": return 5
+        case "2": return 10
+        case "3": return 20
 
 def criarMatrizFalsa(ordem):
 
@@ -69,7 +69,7 @@ def main():
 
     os.system("cls")  # limpa a tela inteira
 
-    dificuldadeEntradaPlayer = input("Escolha a dificuldade (fácil, médio ou difícil): ").lower()
+    dificuldadeEntradaPlayer = input("Escolha a dificuldade entre fácil, médio ou difícil: (Digite 1,2 ou 3 respectivamente) \n")
     ordem = escolherDificuldade(dificuldadeEntradaPlayer)
 
     os.system("cls")  # limpa de novo antes do jogo começar
@@ -84,7 +84,7 @@ def main():
 
     dificuldade = 2 * ordem
     matrizMapa = [[0 for coluna in range(ordem)] for linha in range(ordem)]
-    quantidadeBombas = 1 #random.randint(dificuldade//2, dificuldade+1)
+    quantidadeBombas = random.randint(dificuldade//2, dificuldade+1)
 
     posicoesSagradas=[]
 
