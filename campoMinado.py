@@ -2,7 +2,7 @@ import os, math, sys, random, msvcrt, time
 from colorama import Fore, Back, Style, init
 #pip install colorama terminal
 
-debugMode = 1
+debugMode = 0
 
 def limpar():
 
@@ -42,7 +42,7 @@ def escolherDificuldade(dificuldadeEntrada):
     match dificuldadeEntrada:
         case 1: return 5
         case 2: return 10
-        case 3: return 20
+        case 3: return 15
 
 def criarMatrizFalsa(ordem):
 
@@ -87,6 +87,21 @@ def revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matriz
                     if primeira_vez:
                         matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna]
 
+def imprimirMatrizColorida(matriz):
+
+    for coluna in matriz:
+        for elemento in coluna:
+            
+            match elemento:
+                case 'B': print(Fore.RED + "B", end=" ")
+                case 0: print(Fore.WHITE + str(elemento), end=" ")
+                case 1: print(Fore.BLUE + str(elemento), end=" ")
+                case 2: print(Fore.GREEN + str(elemento), end=" ")
+                case 3: print(Fore.RED + str(elemento), end=" ")
+                case 4: print(Fore.BLACK + str(elemento), end=" ")
+                case 'x': print(Fore.WHITE + elemento, end=" ")
+        print()
+
 def tempoJogado(tempoInicio):
 
     tempoFinal = time.time() - tempoInicio #tempoFinal está em segundos
@@ -109,12 +124,19 @@ def main():
         if msvcrt.getch() == b'\r':
             break
 
-    os.system("cls")  # limpa a tela inteira
+    limpar()
 
-    dificuldadeEntradaPlayer = int(input("Escolha a dificuldade (1 - fácil, 2 - médio ou 3 - difícil): "))
+    dificuldadeEntradaPlayer = int(input("""Escolha a dificuldade:
+1 - fácil (5 x 5)
+2 - médio (10 x 10)
+3 - difícil (15 x 15)
+                                         
+"""))
     ordem = escolherDificuldade(dificuldadeEntradaPlayer)
 
-    os.system("cls")  # limpa de novo antes do jogo começar
+    limpar()
+
+    debugMode = int(input("debug mode (0/1): "))
 
     matrizFalsa = criarMatrizFalsa(ordem) #matriz falsa só com x
 
@@ -177,24 +199,16 @@ def main():
             
         if debugMode:
             print("Debug matriz / x's sobrando:")
-            for coluna in matrizCampo:
-                for elemento in coluna:
-                    
-                    match elemento:
-                        case 'B': print(Fore.RED + "B", end=" ")
-                        case 0: print(Fore.WHITE + str(elemento), end=" ")
-                        case 1: print(Fore.BLUE + str(elemento), end=" ")
-                        case 2: print(Fore.GREEN + str(elemento), end=" ")
-                        case 3: print(Fore.RED + str(elemento), end=" ")
-                        case 4: print(Fore.BLACK + str(elemento), end=" ")
-                        case 'x': print(Fore.WHITE + elemento, end=" ")
-                print(Style.RESET_ALL)
+            imprimirMatrizColorida(matrizCampo)
+            print(Style.RESET_ALL)
             print(x_sobrando)
         primeira_vez=0
 
         if matrizCampo[linhaEscolha][colunaEscolha] == 'B':
             print()
-            print(Fore.RED + "Perdeu seu merdinha >:)", end=" ")
+            print(Fore.RED + "Você perdeu. Como a matriz era:")
+            imprimirMatrizColorida(matrizCampo)
+
             break
         elif x_sobrando==quantidadeBombas:
             print(Fore.GREEN + "Você ganhou yayyy :D", end=" ")
