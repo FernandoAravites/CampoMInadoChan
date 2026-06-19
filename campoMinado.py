@@ -1,4 +1,4 @@
-import os, math, sys, random, msvcrt
+import os, math, sys, random, msvcrt, time
 from colorama import Fore, Back, Style, init
 #pip install colorama terminal
 
@@ -87,6 +87,16 @@ def revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matriz
                     if primeira_vez:
                         matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna]
 
+def tempoJogado(tempoInicio):
+
+    tempoFinal = time.time() - tempoInicio #tempoFinal está em segundos
+
+    minutos, segundos = int(tempoFinal // 60), int(tempoFinal % 60)
+
+    if minutos <= 0: print(f"Tempo Registrado: {segundos} segundos.")
+    else: print(f"Tempo Registrado: {minutos} minutos e {segundos} segundos.")
+
+
 def main():
 
     ordem = 5
@@ -114,6 +124,8 @@ def main():
     linhaEscolha -= 1
     colunaEscolha -= 1
 
+    tempoInicio = time.time()
+
     dificuldade = 2 * ordem
 
     matrizMapa = [[0 for coluna in range(ordem)] for linha in range(ordem)]
@@ -140,7 +152,7 @@ def main():
             linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha coluna): ").split())
             linhaEscolha -= 1
             colunaEscolha -= 1
-            
+
         os.system("cls")  # limpa a tela inteira
 
         matrizJogador[linhaEscolha][colunaEscolha] = matrizCampo[linhaEscolha][colunaEscolha]
@@ -187,16 +199,23 @@ def main():
         elif x_sobrando==quantidadeBombas:
             print(Fore.GREEN + "Você ganhou yayyy :D", end=" ")
             break
-
-            
+    print()
+    tempoJogado(tempoInicio)
 
 while True:
-    if __name__ == '__main__':
-        main()
-        print(Style.RESET_ALL)
-        resposta= input("Gostaria de encerrar a sessão? (Digite ''sim'' caso seja sua vontade) \n").lower()
-        os.system("cls")
 
-        if resposta=="sim":
-            print("Como quiser")
-            break
+    if __name__ == "__main__":
+        try:
+            main()
+
+            print(Style.RESET_ALL)
+
+            resposta = input(
+                "Gostaria de encerrar a sessão? (digite 'sim')\n"
+            ).lower()
+
+            os.system("cls")
+
+            if resposta == "sim": sys.exit()
+
+        except: sys.exit()
