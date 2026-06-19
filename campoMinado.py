@@ -55,6 +55,15 @@ def imprimirMatriz(matriz):
             print(elemento, end=" ")
         print()
 
+def coordenadasSagradas(linhaEscolha, colunaEscolha):
+
+    posicoesSagradas = []
+
+    for i in range(-1, 2): #-1 é acima
+        for j in range(-1,2): #-1 é esquerda
+            coordenadas = (linhaEscolha + i, colunaEscolha + j)
+            posicoesSagradas.append(coordenadas)
+
 def main():
 
     ordem = 5
@@ -83,28 +92,22 @@ def main():
     colunaEscolha -= 1
 
     dificuldade = 2 * ordem
+
     matrizMapa = [[0 for coluna in range(ordem)] for linha in range(ordem)]
+
     quantidadeBombas = random.randint(dificuldade//2, dificuldade+1)
 
-    posicoesSagradas=[]
+    posicoesSagradas = coordenadasSagradas(linhaEscolha, colunaEscolha)  
 
-    for i in range(-1, 2): #-1 é acima
-        for j in range(-1,2): #-1 é esquerda
-            coordenadas = (linhaEscolha + i, colunaEscolha + j)
-            posicoesSagradas.append(coordenadas)
-            
-
-    while quantidadeBombas>0:
-        bombaLinha, bombaColuna=random.randint(0, ordem - 1 ), random.randint(0, ordem - 1)
+    while quantidadeBombas > 0:
+        bombaLinha, bombaColuna = random.randint(0, ordem - 1 ), random.randint(0, ordem - 1)
         coordenadaBomba = (bombaLinha, bombaColuna)
         if coordenadaBomba not in posicoesSagradas:
             matrizMapa[bombaLinha][bombaColuna] = 1
             quantidadeBombas-=1
     
     matrizCampo = criarMatrizCampo(matrizMapa, ordem)
-
-    
-    matrizJogador = [['x' for coluna in range(ordem)] for linha in range(ordem)]
+    matrizJogador = criarMatrizFalsa(ordem)
     nao_rodar_da_primeira_vez=0
     
     while True:
