@@ -46,7 +46,7 @@ def main():
         for elemento in coluna:
             print(elemento, end=" ")
         print()
-    linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha, coluna): ").split())
+    linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha coluna): ").split())
     linhaEscolha -= 1
     colunaEscolha -= 1
 
