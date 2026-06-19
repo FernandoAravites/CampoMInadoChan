@@ -182,6 +182,7 @@ while True:
         main()
         print(Style.RESET_ALL)
         resposta= input("Gostaria de encerrar a sessão? (Digite ''sim'' caso seja sua vontade) \n").lower()
+        os.system("cls")
         if resposta=="sim":
             print("Como quiser")
             break
