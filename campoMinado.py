@@ -43,6 +43,16 @@ def criarMatrizCampo(matrizOriginal, ordem):
 def main():
     #perguntar a ordem
     ordem = 4
+
+    print("=== SIGMA SWEEPER ===\n")
+    print("Pressione Enter para continuar...", end="", flush=True)
+
+    while True:
+        if msvcrt.getch() == b'\r':
+            break
+
+    os.system("cls")  # limpa a tela inteira
+
     matrizFalsa = [['x' for coluna in range(ordem)] for linha in range(ordem)] #matriz falsa só com x
     for coluna in matrizFalsa:
         for elemento in coluna:
