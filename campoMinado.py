@@ -136,8 +136,6 @@ def main():
                 print(Style.RESET_ALL)
             print(x_sobrando)
         primeira_vez=0
-        
-
 
         if matrizCampo[linhaEscolha][colunaEscolha] == 'B':
             print()
