@@ -87,15 +87,15 @@ def revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matriz
                 elif matrizCampo[novaLinha][novaColuna] == 0: matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna]
 
     
-    if primeira_vez:
-        for i in range(-2, 3): #-1 é acima
-            for j in range(-2,3): #-1 é esquerda
+    if primeira_vez: # CHECAR UMA SEGUNDA CAMADA E SÓ REVELAR ONDE NÃO TEM BOMBA PARA FACILITAR O JOGO
+        for i in range(-2, 3): #-2 é duas vezes acima
+            for j in range(-2, 3): #-2 é duas vezes a esquerda
 
                 if i == 0 and j == 0: continue # IGNORA O CENTRO
                 
                 novaLinha, novaColuna = linhaEscolha + i, colunaEscolha + j
             
-                if 0 <= novaLinha < ordem and 0 <= novaColuna < ordem and matrizCampo[novaLinha][novaColuna] != "B":
+                if 0 <= novaLinha < ordem and 0 <= novaColuna < ordem and matrizCampo[novaLinha][novaColuna] != "B": # CHECA SE TEM BOMBA, CASO SIM, NÃO REVELA
 
                     matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna]
 
@@ -118,7 +118,7 @@ def tempoJogado(tempoInicio):
 
     tempoFinal = time.time() - tempoInicio #tempoFinal está em segundos
 
-    minutos, segundos = int(tempoFinal // 60), int(tempoFinal % 60)
+    minutos, segundos = int(tempoFinal // 60), int(tempoFinal % 60) # SEPARA O TEMPO TOTAL EM MINUTOS E SEGUNDOS
 
     if minutos <= 0: print(f"Tempo Registrado: {segundos} segundos.")
     else: print(f"Tempo Registrado: {minutos} minutos e {segundos} segundos.")
