@@ -151,7 +151,7 @@ while True:
     if __name__ == '__main__':
         main()
         print(Style.RESET_ALL)
-        resposta= input("Gostaria de encerrar a sessão? (Digite ''sim'' caso seja sua vontade) \n")
+        resposta= input("Gostaria de encerrar a sessão? (Digite ''sim'' caso seja sua vontade) \n").lower()
         if resposta=="sim":
             print("Como quiser")
             break
