@@ -11,6 +11,15 @@ def limpar():
 
 limpar()
 
+def tempoJogado(tempoInicio):
+
+    tempoFinal = time.time() - tempoInicio #tempoFinal está em segundos
+
+    minutos, segundos = int(tempoFinal // 60), int(tempoFinal % 60) # SEPARA O TEMPO TOTAL EM MINUTOS E SEGUNDOS
+
+    if minutos <= 0: print(f"Tempo Registrado: {segundos} segundos.")
+    else: print(f"Tempo Registrado: {minutos} minutos e {segundos} segundos.")
+
 def contarBombaVizinha(matriz, linha, coluna, ordem):
     
     bombas = 0
@@ -31,43 +40,6 @@ def contarBombaVizinha(matriz, linha, coluna, ordem):
                 if matriz[novaLinha][novaColuna] == 1: bombas += 1
 
     return bombas # BOMBAS PRESENTES AO REDOR DA CASA ESCOLHIDA
-
-def criarMatrizCampo(matrizOriginal, ordem): # MATRIZ QUE POSSUI TODAS AS INFORMAÇÕES DE JOGO
-
-    matrizCampo = [[0 for _ in range(ordem)] for _ in range(ordem)] #CRIA UMA MATRIZ SÓ COM ZERO (TEMPORÁRIO)
-    
-    for i in range(ordem):
-        for j in range(ordem):
-            if matrizOriginal[i][j] == 1: matrizCampo[i][j] = 'B' # TROCA O VALOR 1 POR UM B ONDE TIVER BOMBA
-            else: matrizCampo[i][j] = contarBombaVizinha(matrizOriginal, i, j, ordem) # TROCA PELO VALOR DE BOMBAS NA VIZINHANÇA (CASO NÃO TENHA BOMBA NA CASA ESPECIFICAMENTE)
-    
-    return matrizCampo
-
-def escolherDificuldade(dificuldadeEntrada):
-
-    match dificuldadeEntrada:
-        case 1: return 5
-        case 2: return 10
-        case 3: return 15
-
-def criarMatrizFalsa(ordem):
-
-    return [['x' for coluna in range(ordem)] for linha in range(ordem)] # matriz falsa só com x
-
-def coordenadasSagradas(linhaEscolha, colunaEscolha): #DEFINE POSIÇÕES ONDE NÃO PODE TER BOMBA
-
-    posicoesSagradas = []
-
-    # -1:-1 I -1:0 I -1:1
-    # 0:-1  I 0:0  I 0:1
-    # 1:-1  I 1:0  I 1:1
-    # VAI DA CASA DE ANTES ATÉ A QUE VEM DEPOIS (TANTO VERTICAL, HORIZONTAL E NOS CANTOS)
-    for i in range(-1, 2): # -1 é acima
-        for j in range(-1,2): # -1 é esquerda
-            coordenadas = (linhaEscolha + i, colunaEscolha + j)
-            posicoesSagradas.append(coordenadas)
-
-    return posicoesSagradas
 
 def revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matrizJogador, primeiraVez): #REVELA AS CASAS PRÓXIMAS QUE POSSUEM ZERO BOMBAS AO REDOR
     # -1:-1 I -1:0 I -1:1
@@ -100,6 +72,21 @@ def revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matriz
 
                     matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna]
 
+def criarMatrizCampo(matrizOriginal, ordem): # MATRIZ QUE POSSUI TODAS AS INFORMAÇÕES DE JOGO
+
+    matrizCampo = [[0 for _ in range(ordem)] for _ in range(ordem)] #CRIA UMA MATRIZ SÓ COM ZERO (TEMPORÁRIO)
+    
+    for i in range(ordem):
+        for j in range(ordem):
+            if matrizOriginal[i][j] == 1: matrizCampo[i][j] = 'B' # TROCA O VALOR 1 POR UM B ONDE TIVER BOMBA
+            else: matrizCampo[i][j] = contarBombaVizinha(matrizOriginal, i, j, ordem) # TROCA PELO VALOR DE BOMBAS NA VIZINHANÇA (CASO NÃO TENHA BOMBA NA CASA ESPECIFICAMENTE)
+    
+    return matrizCampo
+
+def criarMatrizFalsa(ordem):
+
+    return [['x' for coluna in range(ordem)] for linha in range(ordem)] # matriz falsa só com x
+
 def imprimirMatrizColorida(matriz):
 
     for coluna in matriz:
@@ -115,14 +102,27 @@ def imprimirMatrizColorida(matriz):
                 case 'x': print(Fore.WHITE + elemento, end=" ")
         print()
 
-def tempoJogado(tempoInicio):
+def escolherDificuldade(dificuldadeEntrada):
 
-    tempoFinal = time.time() - tempoInicio #tempoFinal está em segundos
+    match dificuldadeEntrada:
+        case 1: return 5
+        case 2: return 10
+        case 3: return 15
 
-    minutos, segundos = int(tempoFinal // 60), int(tempoFinal % 60) # SEPARA O TEMPO TOTAL EM MINUTOS E SEGUNDOS
+def coordenadasSagradas(linhaEscolha, colunaEscolha): #DEFINE POSIÇÕES ONDE NÃO PODE TER BOMBA
 
-    if minutos <= 0: print(f"Tempo Registrado: {segundos} segundos.")
-    else: print(f"Tempo Registrado: {minutos} minutos e {segundos} segundos.")
+    posicoesSagradas = []
+
+    # -1:-1 I -1:0 I -1:1
+    # 0:-1  I 0:0  I 0:1
+    # 1:-1  I 1:0  I 1:1
+    # VAI DA CASA DE ANTES ATÉ A QUE VEM DEPOIS (TANTO VERTICAL, HORIZONTAL E NOS CANTOS)
+    for i in range(-1, 2): # -1 é acima
+        for j in range(-1,2): # -1 é esquerda
+            coordenadas = (linhaEscolha + i, colunaEscolha + j)
+            posicoesSagradas.append(coordenadas)
+
+    return posicoesSagradas
 
 
 def main():
