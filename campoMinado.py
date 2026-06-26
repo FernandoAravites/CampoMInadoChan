@@ -15,8 +15,12 @@ def contarBombaVizinha(matriz, linha, coluna, ordem):
     
     bombas = 0
 
-    for i in range(-1, 2): # VAI DA CASA DE ANTES ATÉ A QUE VEM DEPOIS
-        for j in range(-1,2):
+    # -1:-1 I -1:0 I -1:1
+    # 0:-1  I 0:0  I 0:1
+    # 1:-1  I 1:0  I 1:1
+    # VAI DA CASA DE ANTES ATÉ A QUE VEM DEPOIS (TANTO VERTICAL, HORIZONTAL E NOS CANTOS)
+    for i in range(-1, 2): #-1 é acima
+        for j in range(-1,2): #-1 é esquerda
 
             if i == 0 and j == 0: continue # IGNORA O CENTRO
                 
@@ -26,11 +30,11 @@ def contarBombaVizinha(matriz, linha, coluna, ordem):
 
                 if matriz[novaLinha][novaColuna] == 1: bombas += 1
 
-    return bombas # BOMBAS PRESENTES AO REDOR DA CASA ESOCLHIDA
+    return bombas # BOMBAS PRESENTES AO REDOR DA CASA ESCOLHIDA
 
-def criarMatrizCampo(matrizOriginal, ordem):
+def criarMatrizCampo(matrizOriginal, ordem): # MATRIZ QUE POSSUI TODAS AS INFORMAÇÕES DE JOGO
 
-    matrizCampo = [[0 for _ in range(ordem)] for _ in range(ordem)]
+    matrizCampo = [[0 for _ in range(ordem)] for _ in range(ordem)] #CRIA UMA MATRIZ SÓ COM ZERO (TEMPORÁRIO)
     
     for i in range(ordem):
         for j in range(ordem):
@@ -50,17 +54,14 @@ def criarMatrizFalsa(ordem):
 
     return [['x' for coluna in range(ordem)] for linha in range(ordem)] # matriz falsa só com x
 
-def imprimirMatriz(matriz): # GENÉRICO (SEM CORES)
-
-    for coluna in matriz:
-        for elemento in coluna:
-            print(elemento, end=" ")
-        print()
-
-def coordenadasSagradas(linhaEscolha, colunaEscolha):
+def coordenadasSagradas(linhaEscolha, colunaEscolha): #DEFINE POSIÇÕES ONDE NÃO PODE TER BOMBA
 
     posicoesSagradas = []
 
+    # -1:-1 I -1:0 I -1:1
+    # 0:-1  I 0:0  I 0:1
+    # 1:-1  I 1:0  I 1:1
+    # VAI DA CASA DE ANTES ATÉ A QUE VEM DEPOIS (TANTO VERTICAL, HORIZONTAL E NOS CANTOS)
     for i in range(-1, 2): # -1 é acima
         for j in range(-1,2): # -1 é esquerda
             coordenadas = (linhaEscolha + i, colunaEscolha + j)
@@ -68,12 +69,11 @@ def coordenadasSagradas(linhaEscolha, colunaEscolha):
 
     return posicoesSagradas
 
-def revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matrizJogador, primeira_vez):
-
+def revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matrizJogador, primeira_vez): #REVELA AS CASAS PRÓXIMAS QUE POSSUEM ZERO BOMBAS AO REDOR
     # -1:-1 I -1:0 I -1:1
     # 0:-1  I 0:0  I 0:1
     # 1:-1  I 1:0  I 1:1
-
+    # VAI DA CASA DE ANTES ATÉ A QUE VEM DEPOIS (TANTO VERTICAL, HORIZONTAL E NOS CANTOS)
     for i in range(-1, 2): #-1 é acima
         for j in range(-1,2): #-1 é esquerda
 
@@ -149,11 +149,13 @@ def main():
 
     limpar()
 
-    debugMode = int(input("debug mode (0/1): "))
+    debugMode = int(input("Ativar debug mode?\n0 - Não\n1 - Sim\n\n"))
+
+    limpar()
 
     matrizFalsa = criarMatrizFalsa(ordem) #matriz falsa só com x
 
-    imprimirMatriz(matrizFalsa)
+    imprimirMatrizColorida(matrizFalsa)
 
     linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha (linha coluna): ").split()) # coordenada (x, y) escolhida
     linhaEscolha -= 1 # COMPUTADOR COMEÇA A CONTAGEM NO 0, QUEREMOS QUE SEJA NO 1 PARA FICAR MAIS INTUITÍVO
