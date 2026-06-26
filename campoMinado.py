@@ -1,5 +1,5 @@
-import os, math, sys, random, msvcrt, time
-from colorama import Fore, Back, Style, init
+import os, sys, random, msvcrt, time
+from colorama import Fore, Style
 #pip install colorama terminal
 #Feito por Andrey Rigo e Fernando Aravites
 
