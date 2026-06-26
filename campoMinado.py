@@ -182,10 +182,10 @@ def main():
     
     matrizCampo = criarMatrizCampo(matrizMapa, ordem) # MATRIZ QUE POSSUI TODAS AS INFORMAÇÕES DE JOGO
     matrizJogador = criarMatrizFalsa(ordem) # MATRIZ QUE SÓ O PLAYER VAI VER
-    primeira_vez = 1 # IMPEDIR QUE ELE PERGUNTE NOVAMENTE AS POSIÇÕES
+    primeiraVez = 1 # IMPEDIR QUE ELE PERGUNTE NOVAMENTE AS POSIÇÕES
     
     while True:
-        if not primeira_vez:
+        if not primeiraVez:
             linhaEscolha, colunaEscolha = map(int, input("Digite a posição para escolha: ").split())
             linhaEscolha -= 1
             colunaEscolha -= 1
@@ -194,7 +194,7 @@ def main():
 
         matrizJogador[linhaEscolha][colunaEscolha] = matrizCampo[linhaEscolha][colunaEscolha] # TROCA O X DA MATRIZ JOGADOR PELO VALOR QUE EXISTE NA matrizCampo
 
-        revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matrizJogador, primeira_vez) # FUNÇÃO QUE REVELA AS CASAS PRÓXIMAS DA ESCOLHIDA
+        revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matrizJogador, primeiraVez) # FUNÇÃO QUE REVELA AS CASAS PRÓXIMAS DA ESCOLHIDA
 
         x_sobrando = 0 # VARIÁVEL QUE DEFINE O AVANÇO DO PLAYER NA PARTIDA (QUANTIDADE DE LUGARES NÃO DESCOBERTOS)
         for coluna in matrizJogador: # IMPRIMIR matrizJogador COM CORES INDICATIVAS
@@ -217,7 +217,7 @@ def main():
             imprimirMatrizColorida(matrizCampo) #FUNÇÃO GENÉRICA UTILIZADA PARA EVITAR LINHA DE CÓDIGO NO MEIO DO main()
             print(Style.RESET_ALL)
             print(x_sobrando)
-        primeira_vez = 0
+        primeiraVez = 0
 
         if matrizCampo[linhaEscolha][colunaEscolha] == 'B': # CONDIÇÃO DE DERROTA -> ESCOLHEU POSIÇÃO COM BOMBA
             print()
