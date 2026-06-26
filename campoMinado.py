@@ -1,6 +1,7 @@
 import os, math, sys, random, msvcrt, time
 from colorama import Fore, Back, Style, init
 #pip install colorama terminal
+#Feito por Andrey Rigo e Fernando Aravites
 
 debugMode = 0
 
