@@ -69,7 +69,7 @@ def coordenadasSagradas(linhaEscolha, colunaEscolha): #DEFINE POSIÇÕES ONDE N�
 
     return posicoesSagradas
 
-def revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matrizJogador, primeira_vez): #REVELA AS CASAS PRÓXIMAS QUE POSSUEM ZERO BOMBAS AO REDOR
+def revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matrizJogador, primeiraVez): #REVELA AS CASAS PRÓXIMAS QUE POSSUEM ZERO BOMBAS AO REDOR
     # -1:-1 I -1:0 I -1:1
     # 0:-1  I 0:0  I 0:1
     # 1:-1  I 1:0  I 1:1
@@ -88,7 +88,7 @@ def revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matriz
                 elif matrizCampo[novaLinha][novaColuna] == 0: matrizJogador[novaLinha][novaColuna] = matrizCampo[novaLinha][novaColuna]
 
     
-    if primeira_vez: # CHECAR UMA SEGUNDA CAMADA E SÓ REVELAR ONDE NÃO TEM BOMBA PARA FACILITAR O JOGO
+    if primeiraVez: # CHECAR UMA SEGUNDA CAMADA E SÓ REVELAR ONDE NÃO TEM BOMBA PARA FACILITAR O JOGO
         for i in range(-2, 3): #-2 é duas vezes acima
             for j in range(-2, 3): #-2 é duas vezes a esquerda
 
