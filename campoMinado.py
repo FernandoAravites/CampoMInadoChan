@@ -70,9 +70,9 @@ def coordenadasSagradas(linhaEscolha, colunaEscolha):
 
 def revelarCasasProximas(linhaEscolha, colunaEscolha, ordem, matrizCampo, matrizJogador, primeira_vez):
 
-    #-1:-1 I -1:0 I -1:1
-    #0:-1 I 0:0 I 0:1
-    #1:-1 I 1:0 I 1:1
+    # -1:-1 I -1:0 I -1:1
+    # 0:-1  I 0:0  I 0:1
+    # 1:-1  I 1:0  I 1:1
 
     for i in range(-1, 2): #-1 é acima
         for j in range(-1,2): #-1 é esquerda
