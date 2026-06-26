@@ -5,8 +5,8 @@ from colorama import Fore, Back, Style, init
 
 debugMode = 0
 
-def limpar():
-
+def limpar(): 
+    
     os.system('cls' if os.name == 'nt' else 'clear')
 
 limpar()
